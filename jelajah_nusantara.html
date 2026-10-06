@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jelajah Nusantara - Mengenal Keberagaman Indonesia</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --secondary: #10B981;
+            --accent: #F59E0B;
+            --danger: #EF4444;
+            --bg-color: #F0FDF4;
+        }
+        
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(#bae6fd 2px, transparent 2px);
+            background-size: 30px 30px;
+            margin: 0;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        .screen {
+            display: none !important;
+            animation: fadeIn 0.5s ease-in-out forwards;
+        }
+        .screen.active {
+            display: flex !important;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+
+        .btn-hover:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-click {
+            transition: all 0.1s;
+        }
+        .btn-click:active {
+            transform: scale(0.95);
+        }
+
+        .quiz-option {
+            border: 3px solid #E5E7EB;
+            transition: all 0.2s;
+        }
+        .quiz-option:hover:not(:disabled) {
+            border-color: #3B82F6;
+            background-color: #EFF6FF;
+        }
+        .quiz-option.correct {
+            border-color: #10B981;
+            background-color: #D1FAE5;
+            color: #065F46;
+        }
+        .quiz-option.wrong {
+            border-color: #EF4444;
+            background-color: #FEE2E2;
+            color: #991B1B;
+        }
+
+        .glass-header {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .title-3d {
+            color: #FDE047;
+            text-shadow: 
+                -2px -2px 0 #C2410C,  
+                 2px -2px 0 #C2410C,
+                -2px  2px 0 #C2410C,
+                 2px  2px 0 #C2410C,
+                 1px  1px 0 #C2410C,
+                 2px  2px 0 #C2410C,
+                 3px  3px 0 #C2410C,
+                 4px  4px 0 #C2410C,
+                 5px  5px 0 #C2410C,
+                 7px  7px 15px rgba(0,0,0,0.4);
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888; 
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555; 
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <div class="max-w-4xl mx-auto min-h-screen relative shadow-2xl bg-white/40 overflow-hidden flex flex-col border-x-4 border-white">
+        
+        <header id="main-header" class="glass-header hidden sticky top-0 z-50 px-6 py-4 flex justify-between items-center shadow-sm">
+            <h1 class="font-heading text-xl md:text-2xl text-blue-700 font-bold flex items-center gap-2 uppercase">
+                <i class="fa-solid fa-earth-asia text-green-500"></i> JELAJAH NUSANTARA
+            </h1>
+            <button onclick="navigate('home')" class="btn-hover btn-click bg-orange-400 text-white font-bold py-2 px-4 rounded-xl border-b-4 border-orange-600 flex items-center gap-2 text-sm md:text-base">
+                <i class="fa-solid fa-house"></i> Home
+            </button>
+        </header>
+
+        <main class="flex-grow p-4 md:p-8 flex flex-col relative">
+
+            <div id="screen-home" class="screen active flex-grow flex flex-col justify-center">
+                <div class="text-center mb-10 mt-4">
+                    <h1 class="font-heading text-4xl md:text-6xl font-bold mb-6 title-3d uppercase animate-[pop_3s_ease-in-out_infinite]">
+                        JELAJAH NUSANTARA
+                    </h1>
+                    <p class="text-base md:text-xl text-gray-700 font-bold max-w-lg mx-auto bg-white/60 py-3 px-6 rounded-3xl shadow-sm border-2 border-white backdrop-blur-sm">
+                        Mengenal Keberagaman Budaya Indonesia dengan cara yang menyenangkan!
+                    </p>
+                </div>
+
+                <!-- Responsif: potrait (flex-col / sejajar ke bawah), landscape/md (grid 3 kolom sejajar ke samping) -->
+                <div class="flex flex-col md:grid md:grid-cols-3 gap-6 max-w-5xl mx-auto w-full px-2">
+                    <button onclick="navigate('map')" class="btn-hover btn-click group relative bg-green-500 rounded-3xl p-6 text-center border-b-8 border-green-700 text-white overflow-hidden shadow-lg flex flex-col justify-center items-center h-36 md:h-full">
+                        <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                        <i class="fa-solid fa-map-location-dot text-4xl md:text-5xl mb-3 text-green-100"></i>
+                        <h2 class="font-heading text-xl md:text-2xl font-bold">Peta Interaktif</h2>
+                        <p class="text-green-100 text-xs md:text-sm mt-1 font-semibold">Eksplorasi budaya daerah</p>
+                    </button>
+
+                    <button onclick="navigate('video')" class="btn-hover btn-click group relative bg-blue-500 rounded-3xl p-6 text-center border-b-8 border-blue-700 text-white overflow-hidden shadow-lg flex flex-col justify-center items-center h-36 md:h-full">
+                        <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                        <i class="fa-solid fa-play-circle text-4xl md:text-5xl mb-3 text-blue-100"></i>
+                        <h2 class="font-heading text-xl md:text-2xl font-bold">Video Pembelajaran</h2>
+                        <p class="text-blue-100 text-xs md:text-sm mt-1 font-semibold">Tonton keragaman alam & budaya</p>
+                    </button>
+
+                    <button onclick="navigate('quiz-intro')" class="btn-hover btn-click group relative bg-purple-500 rounded-3xl p-6 text-center border-b-8 border-purple-700 text-white overflow-hidden shadow-lg flex flex-col justify-center items-center h-36 md:h-full">
+                        <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                        <i class="fa-solid fa-gamepad text-4xl md:text-5xl mb-3 text-purple-100"></i>
+                        <h2 class="font-heading text-xl md:text-2xl font-bold">Kuis Interaktif</h2>
+                        <p class="text-purple-100 text-xs md:text-sm mt-1 font-semibold">Uji pengetahuanmu!</p>
+                    </button>
+                </div>
+            </div>
+
+            <div id="screen-map" class="screen flex-grow flex-col h-full">
+                <div class="text-center mb-6">
+                    <h2 class="font-heading text-3xl md:text-4xl text-blue-800 font-bold mb-2">Peta Interaktif Indonesia</h2>
+                    <div class="inline-flex items-center gap-2 bg-yellow-100 px-4 py-2 rounded-full text-yellow-800 font-bold border-2 border-yellow-300 shadow-sm text-sm md:text-base">
+                        <i class="fa-solid fa-hand-pointer animate-bounce"></i>
+                        Klik pin lokasi pada peta untuk melihat keberagaman budaya
+                    </div>
+                </div>
+
+                <div class="relative w-full max-w-5xl mx-auto bg-[#BAE6FD] border-4 border-white rounded-3xl shadow-2xl overflow-hidden mb-8 p-4 flex justify-center items-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Indonesia_blank_map.svg" 
+                         class="w-full h-auto block drop-shadow-lg opacity-90 max-h-[500px] object-contain" 
+                         alt="Peta Indonesia">
+                    
+                    <div id="map-pins-container" class="absolute inset-0">
+                    </div>
+                </div>
+            </div>
+
+            <div id="screen-map-detail" class="screen flex-grow flex-col">
+                <button onclick="navigate('map')" class="mb-6 inline-flex items-center gap-2 text-blue-600 font-bold hover:text-blue-800 transition-colors">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali ke Peta
+                </button>
+
+                <div class="bg-white rounded-3xl shadow-xl border-4 border-green-200 overflow-hidden">
+                    <div class="bg-green-500 p-6 text-center text-white relative">
+                        <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20 pointer-events-none">
+                            <i class="fa-solid fa-certificate absolute -top-4 -left-4 text-6xl"></i>
+                            <i class="fa-solid fa-certificate absolute -bottom-4 -right-4 text-8xl"></i>
+                        </div>
+                        <h2 id="detail-province-name" class="font-heading text-3xl md:text-5xl font-bold relative z-10">Nama Provinsi</h2>
+                        <p id="detail-island-name" class="text-green-100 font-semibold text-lg relative z-10">Pulau</p>
+                    </div>
+
+                    <div class="p-6 md:p-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="cultural-details-grid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="screen-video" class="screen flex-grow flex-col">
+                <div class="text-center mb-6">
+                    <h2 class="font-heading text-3xl md:text-4xl text-blue-800 font-bold mb-2">Video Pembelajaran</h2>
+                    <p class="text-gray-600 font-semibold">Klik thumbnail di bawah untuk menonton video dokumenter keragaman Indonesia di YouTube.</p>
+                </div>
+
+                <div class="w-full max-w-3xl mx-auto">
+                    <a href="https://youtu.be/BDy2ChJusqU?si=GhkT4NMYkxZu0Bqc" target="_blank" class="block bg-black rounded-3xl overflow-hidden shadow-2xl border-4 border-gray-800 relative aspect-video group cursor-pointer">
+                        <img src="https://img.youtube.com/vi/BDy2ChJusqU/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/BDy2ChJusqU/hqdefault.jpg';" alt="Preview Video Pembelajaran" class="w-full h-full object-cover opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300">
+                        <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                            <div class="bg-red-600 text-white rounded-full w-20 h-20 md:w-24 md:h-24 flex items-center justify-center shadow-[0_0_25px_rgba(255,0,0,0.6)] group-hover:bg-red-700 group-hover:scale-110 transition-all">
+                                <i class="fa-solid fa-play text-3xl md:text-4xl ml-1"></i>
+                            </div>
+                        </div>
+                        <div class="absolute bottom-4 left-4 right-4 bg-black/60 backdrop-blur-md p-4 rounded-2xl text-white font-heading font-bold text-lg flex items-center justify-between">
+                            <span>Tonton Video di YouTube</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div id="screen-quiz-intro" class="screen flex-grow flex flex-col justify-center items-center text-center">
+                <div class="w-32 h-32 bg-purple-100 rounded-full flex items-center justify-center mb-6 shadow-inner border-4 border-purple-200">
+                    <i class="fa-solid fa-clipboard-question text-6xl text-purple-600 animate-pulse"></i>
+                </div>
+                <h2 class="font-heading text-4xl text-purple-800 font-bold mb-4">Siap untuk Kuis?</h2>
+                <p class="text-gray-600 font-bold max-w-md mb-8 text-lg">
+                    Ayo uji pengetahuanmu tentang keragaman budaya Indonesia dari materi peta dan video tadi!
+                </p>
+                <button onclick="startQuiz()" class="btn-hover btn-click bg-purple-600 text-white font-heading text-xl py-4 px-10 rounded-full border-b-4 border-purple-800 shadow-lg">
+                    Mulai Kuis Sekarang <i class="fa-solid fa-rocket ml-2"></i>
+                </button>
+            </div>
+
+            <div id="screen-quiz-play" class="screen flex-grow flex-col max-w-2xl mx-auto w-full">
+                <div class="flex justify-between items-center mb-6 bg-white p-4 rounded-2xl shadow-sm">
+                    <div class="font-bold text-gray-500">
+                        Soal <span id="quiz-current-num" class="text-purple-600 text-xl font-black">1</span> / <span id="quiz-total-num">10</span>
+                    </div>
+                    <div class="font-bold text-gray-500 flex items-center gap-2">
+                        <i class="fa-solid fa-star text-yellow-400"></i> Skor: <span id="quiz-score" class="text-green-600 text-xl font-black">0</span>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3xl shadow-lg border-2 border-purple-100 p-6 md:p-8 mb-6 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-2 bg-gray-100">
+                        <div id="quiz-progress" class="h-full bg-purple-500 transition-all duration-300" style="width: 10%;"></div>
+                    </div>
+
+                    <h3 id="quiz-question" class="font-heading text-2xl text-gray-800 font-bold mb-6 mt-2 text-center">
+                        Pertanyaan akan muncul di sini?
+                    </h3>
+
+                    <div id="quiz-options" class="flex flex-col gap-3">
+                    </div>
+                </div>
+
+                <div id="quiz-feedback-container" class="hidden flex flex-col md:flex-row items-center justify-between bg-white p-4 rounded-2xl shadow-sm border-2 border-gray-100 gap-4">
+                    <div id="quiz-feedback-msg" class="font-bold text-lg flex items-center gap-2">
+                    </div>
+                    <button id="btn-next-question" onclick="nextQuestion()" class="btn-hover btn-click w-full md:w-auto bg-blue-600 text-white font-bold py-3 px-8 rounded-xl border-b-4 border-blue-800">
+                        Lanjut <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="screen-quiz-result" class="screen flex-grow flex flex-col justify-center items-center text-center">
+                <div id="result-icon-container" class="w-40 h-40 rounded-full flex items-center justify-center mb-6 shadow-lg border-8">
+                </div>
+                <h2 id="result-title" class="font-heading text-4xl font-bold mb-2">Luar Biasa!</h2>
+                <p class="text-gray-600 font-bold text-lg mb-6">Skor Akhir Kamu:</p>
+                <div class="text-7xl font-heading font-black text-blue-600 mb-8 bg-blue-100 px-8 py-4 rounded-3xl border-4 border-blue-200 shadow-inner">
+                    <span id="final-score">100</span>
+                </div>
+                
+                <div class="flex gap-4">
+                    <button onclick="startQuiz()" class="btn-hover btn-click bg-purple-500 text-white font-bold py-3 px-6 rounded-xl border-b-4 border-purple-700">
+                        <i class="fa-solid fa-rotate-right mr-2"></i> Main Lagi
+                    </button>
+                    <button onclick="navigate('home')" class="btn-hover btn-click bg-green-500 text-white font-bold py-3 px-6 rounded-xl border-b-4 border-green-700">
+                        <i class="fa-solid fa-house mr-2"></i> Ke Beranda
+                    </button>
+                </div>
+            </div>
+
+        </main>
+        
+        <div id="custom-alert" class="fixed inset-0 bg-black/50 z-[100] hidden flex items-center justify-center backdrop-blur-sm p-4">
+            <div class="bg-white rounded-3xl shadow-2xl p-6 md:p-8 max-w-sm w-full text-center border-4 border-blue-400 transform transition-transform scale-95 opacity-0" id="custom-alert-box">
+                <div class="w-16 h-16 bg-blue-100 text-blue-500 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                    <i class="fa-solid fa-circle-info"></i>
+                </div>
+                <h3 class="font-heading text-2xl font-bold text-gray-800 mb-2" id="alert-title">Informasi</h3>
+                <p class="text-gray-600 font-medium mb-6" id="alert-message">Pesan alert di sini.</p>
+                <button onclick="closeCustomAlert()" class="btn-hover btn-click w-full bg-blue-500 text-white font-bold py-3 rounded-xl border-b-4 border-blue-700">
+                    Mengerti
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const mapData = {
+            "sumatera": {
+                name: "Pulau Sumatera",
+                provinces: [
+                    {
+                        id: "sumut",
+                        name: "Sumatera Utara",
+                        top: "32%", left: "15%",
+                        suku: { name: "Batak, Nias, Melayu, dan lainnya", icon: "fa-users" },
+                        bahasa: { name: "Batak Toba, Karo, Mandailing, Nias, Melayu", icon: "fa-comments" },
+                        pakaian_adat: { name: "Ulos", icon: "fa-shirt" },
+                        makanan: { name: "Arsik", icon: "fa-bowl-food" },
+                        senjata: { name: "Piso Gaja Dompak", icon: "fa-shield-halved" },
+                        rumah_adat: { name: "Rumah Bolon", icon: "fa-house-chimney" },
+                        tarian: { name: "Tari Tor-Tor", icon: "fa-person-half-dress" },
+                        alat_musik: { name: "Gordang Sambilan", icon: "fa-music" },
+                        lagu: { name: "Butet", icon: "fa-microphone" }
+                    },
+                    {
+                        id: "sumbar",
+                        name: "Sumatera Barat",
+                        top: "45%", left: "19%",
+                        suku: { name: "Minangkabau, Mentawai", icon: "fa-users" },
+                        bahasa: { name: "Bahasa Minangkabau, Mentawai", icon: "fa-comments" },
+                        pakaian_adat: { name: "Bundo Kanduang", icon: "fa-shirt" },
+                        makanan: { name: "Rendang", icon: "fa-bowl-food" },
+                        senjata: { name: "Keris", icon: "fa-shield-halved" },
+                        rumah_adat: { name: "Rumah Gadang", icon: "fa-house-chimney" },
+                        tarian: { name: "Tari Piring", icon: "fa-person-half-dress" },
+                        alat_musik: { name: "Talempong", icon: "fa-music" },
+                        lagu: { name: "Ayam Den Lapeh", icon: "fa-microphone" }
+                    },
+                    {
+                        id: "lampung",
+                        name: "Lampung",
+                        top: "65%", left: "26%",
+                        suku: { name: "Lampung, Jawa, Bali, dan lainnya", icon: "fa-users" },
+                        bahasa: { name: "Bahasa Lampung", icon: "fa-comments" },
+                        pakaian_adat: { name: "Pakaian Adat Lampung dengan kain tapis", icon: "fa-shirt" },
+                        makanan: { name: "Seruit", icon: "fa-bowl-food" },
+                        senjata: { name: "Terapang", icon: "fa-shield-halved" },
+                        rumah_adat: { name: "Nuwo Sesat", icon: "fa-house-chimney" },
+                        tarian: { name: "Tari Sigeh Penguten", icon: "fa-person-half-dress" },
+                        alat_musik: { name: "Gamolan", icon: "fa-music" },
+                        lagu: { name: "Tanoh Lado", icon: "fa-microphone" }
+                    }
+                ]
+            },
+            "jawa": {
+                name: "Pulau Jawa",
+                provinces: [
+                    {
+                        id: "jabar",
+                        name: "Jawa Barat",
+                        top: "72%", left: "31%",
+                        suku: { name: "Sunda", icon: "fa-users" },
+                        bahasa: { name: "Bahasa Sunda", icon: "fa-comments" },
+                        pakaian_adat: { name: "Pangsi dan kebaya Sunda", icon: "fa-shirt" },
+                        makanan: { name: "Batagor", icon: "fa-bowl-food" },
+                        senjata: { name: "Kujang", icon: "fa-shield-halved" },
+                        rumah_adat: { name: "Rumah Jolopong", icon: "fa-house-chimney" },
+                        tarian: { name: "Tari Jaipong", icon: "fa-person-half-dress" },
+                        alat_musik: { name: "Angklung", icon: "fa-music" },
+                        lagu: { name: "Manuk Dadali", icon: "fa-microphone" }
+                    },
+                    {
+                        id: "jateng",
+                        name: "Jawa Tengah",
+                        top: "74%", left: "37%",
+                        suku: { name: "Jawa", icon: "fa-users" },
+                        bahasa: { name: "Bahasa Jawa", icon: "fa-comments" },
+                        pakaian_adat: { name: "Kebaya dan beskap", icon: "fa-shirt" },
+                        makanan: { name: "Lumpia Semarang", icon: "fa-bowl-food" },
+                        senjata: { name: "Keris", icon: "fa-shield-halved" },
+                        rumah_adat: { name: "Rumah Joglo", icon: "fa-house-chimney" },
+                        tarian: { name: "Tari Gambyong", icon: "fa-person-half-dress" },
+                        alat_musik: { name: "Gamelan", icon: "fa-music" },
+                        lagu: { name: "Gundul-Gundul Pacul", icon: "fa-microphone" }
+                    },
+                    {
+                        id: "dki",
+                        name: "DKI Jakarta",
+                        top: "69%", left: "29%",
+                        suku: { name: "Betawi", icon: "fa-users" },
+                        bahasa: { name: "Bahasa Betawi", icon: "fa-comments" },
+                        pakaian_adat: { name: "Baju Sadariah dan Kebaya Encim", icon: "fa-shirt" },
+                        makanan: { name: "Kerak telor", icon: "fa-bowl-food" },
+                        senjata: { name: "Golok", icon: "fa-shield-halved" },
+                        rumah_adat: { name: "Rumah Kebaya", icon: "fa-house-chimney" },
+                        tarian: { name: "Tari Yapong", icon: "fa-person-half-dress" },
+                        alat_musik: { name: "Tanjidor", icon: "fa-music" },
+                        lagu: { name: "Jali-Jali", icon: "fa-microphone" }
+                    }
+                ]
+            },
+            "bali": {
+                name: "Bali & Nusa Tenggara",
+                provinces: [
+                    {
+                        id: "bali",
+                        name: "Bali",
+                        top: "78%", left: "48%",
+                        suku: { name: "Bali", icon: "fa-users" },
+                        bahasa: { name: "Bahasa Bali", icon: "fa-comments" },
+                        pakaian_adat: { name: "Payas Agung", icon: "fa-shirt" },
+                        makanan: { name: "Ayam Betutu", icon: "fa-bowl-food" },
+                        senjata: { name: "Keris", icon: "fa-shield-halved" },
+                        rumah_adat: { name: "Rumah Bale", icon: "fa-house-chimney" },
+                        tarian: { name: "Tari Kecak", icon: "fa-person-half-dress" },
+                        alat_musik: { name: "Gamelan Bali", icon: "fa-music" },
+                        lagu: { name: "Putri Cening Ayu", icon: "fa-microphone" }
+                    }
+                ]
+            },
+            "kalimantan": {
+                name: "Pulau Kalimantan",
+                provinces: [
+                    {
+                        id: "kaltim",
+                        name: "Kalimantan Timur",
+                        top: "40%", left: "48%",
+                        suku: { name: "Dayak, Kutai, dan Banjar", icon: "fa-users" },
+                        bahasa: { name: "Bahasa Kutai dan berbagai bahasa Dayak", icon: "fa-comments" },
+                        pakaian_adat: { name: "Kustin", icon: "fa-shirt" },
+                        makanan: { name: "Nasi Bekepor", icon: "fa-bowl-food" },
+                        senjata: { name: "Mandau", icon: "fa-shield-halved" },
+                        rumah_adat: { name: "Rumah Lamin", icon: "fa-house-chimney" },
+                        tarian: { name: "Tari Gong", icon: "fa-person-half-dress" },
+                        alat_musik: { name: "Sampe", icon: "fa-music" },
+                        lagu: { name: "Indung-Indung", icon: "fa-microphone" }
+                    },
+                    {
+                        id: "kalsel",
+                        name: "Kalimantan Selatan",
+                        top: "56%", left: "46%",
+                        suku: { name: "Banjar, Dayak, dan Jawa", icon: "fa-users" },
+                        bahasa: { name: "Bahasa Banjar", icon: "fa-comments" },
+                        pakaian_adat: { name: "Babaju Kun Galung Pacinan", icon: "fa-shirt" },
+                        makanan: { name: "Soto Banjar", icon: "fa-bowl-food" },
+                        senjata: { name: "Mandau", icon: "fa-shield-halved" },
+                        rumah_adat: { name: "Rumah Bubungan Tinggi", icon: "fa-house-chimney" },
+                        tarian: { name: "Tari Baksa Kembang", icon: "fa-person-half-dress" },
+                        alat_musik: { name: "Panting", icon: "fa-music" },
+                        lagu: { name: "Ampar-Ampar Pisang", icon: "fa-microphone" }
+                    }
+                ]
+            },
+            "sulawesi": {
+                name: "Pulau Sulawesi",
+                provinces: [
+                    {
+                        id: "sulsel",
+                        name: "Sulawesi Selatan",
+                        top: "60%", left: "57%",
+                        suku: { name: "Bugis, Makassar, Toraja, dan Mandar", icon: "fa-users" },
+                        bahasa: { name: "Bugis, Makassar, Toraja, dan Mandar", icon: "fa-comments" },
+                        pakaian_adat: { name: "Baju Bodo", icon: "fa-shirt" },
+                        makanan: { name: "Coto Makassar", icon: "fa-bowl-food" },
+                        senjata: { name: "Badik", icon: "fa-shield-halved" },
+                        rumah_adat: { name: "Rumah Tongkonan", icon: "fa-house-chimney" },
+                        tarian: { name: "Tari Pakarena", icon: "fa-person-half-dress" },
+                        alat_musik: { name: "Kacaping", icon: "fa-music" },
+                        lagu: { name: "Anging Mammiri", icon: "fa-microphone" }
+                    },
+                    {
+                        id: "sulut",
+                        name: "Sulawesi Utara",
+                        top: "37%", left: "65%",
+                        suku: { name: "Minahasa, Sangihe, Talaud, dan Bolaang Mongondow", icon: "fa-users" },
+                        bahasa: { name: "Bahasa Minahasa, Sangihe, Talaud, dan Mongondow", icon: "fa-comments" },
+                        pakaian_adat: { name: "Laku Tepu", icon: "fa-shirt" },
+                        makanan: { name: "Tinutuan", icon: "fa-bowl-food" },
+                        senjata: { name: "Pedang Bara Sangihe", icon: "fa-shield-halved" },
+                        rumah_adat: { name: "Walewangko", icon: "fa-house-chimney" },
+                        tarian: { name: "Tari Maengket", icon: "fa-person-half-dress" },
+                        alat_musik: { name: "Kolintang", icon: "fa-music" },
+                        lagu: { name: "O Ina Ni Keke", icon: "fa-microphone" }
+                    }
+                ]
+            },
+            "papua": {
+                name: "Pulau Papua",
+                provinces: [
+                    {
+                        id: "papua_prov",
+                        name: "Papua",
+                        top: "60%", left: "88%",
+                        suku: { name: "Dani, Asmat, Biak, Sentani, dan lainnya", icon: "fa-users" },
+                        bahasa: { name: "Beragam bahasa daerah, seperti Dani dan Biak", icon: "fa-comments" },
+                        pakaian_adat: { name: "Koteka dan rok rumbai", icon: "fa-shirt" },
+                        makanan: { name: "Papeda", icon: "fa-bowl-food" },
+                        senjata: { name: "Busur dan panah", icon: "fa-shield-halved" },
+                        rumah_adat: { name: "Honai", icon: "fa-house-chimney" },
+                        tarian: { name: "Tari Yospan", icon: "fa-person-half-dress" },
+                        alat_musik: { name: "Tifa", icon: "fa-music" },
+                        lagu: { name: "Apuse", icon: "fa-microphone" }
+                    }
+                ]
+            }
+        };
+
+        const quizQuestions = [
+            {
+                question: "Apa nama rumah tradisional dari Sumatera Barat?",
+                options: ["Rumah Bolon", "Rumah Gadang", "Rumah Joglo", "Rumah Lamin"],
+                correctIndex: 1
+            },
+            {
+                question: "Tari Jaipong merupakan tarian tradisional dari provinsi ....",
+                options: ["Jawa Tengah", "Jawa Barat", "Lampung", "Bali"],
+                correctIndex: 1
+            },
+            {
+                question: "Makanan khas Sumatera Utara yang disebutkan dalam materi adalah ....",
+                options: ["Arsik", "Rendang", "Seruit", "Soto Banjar"],
+                correctIndex: 0
+            },
+            {
+                question: "Alat musik tradisional yang terkenal dari Sulawesi Utara adalah ....",
+                options: ["Angklung", "Talempong", "Kolintang", "Panting"],
+                correctIndex: 2
+            },
+            {
+                question: "Apa nama senjata tradisional dari Jawa Barat?",
+                options: ["Badik", "Kujang", "Mandau", "Golok"],
+                correctIndex: 1
+            },
+            {
+                question: "Papeda merupakan makanan khas dari ....",
+                options: ["Bali", "Papua", "Kalimantan Selatan", "Sulawesi Selatan"],
+                correctIndex: 1
+            },
+            {
+                question: "Rumah tradisional masyarakat Bali yang disebutkan dalam materi adalah ....",
+                options: ["Bale", "Honai", "Tongkonan", "Nuwo Sesat"],
+                correctIndex: 0
+            },
+            {
+                question: "Baju Bodo merupakan pakaian tradisional dari ....",
+                options: ["Sulawesi Selatan", "Sulawesi Utara", "Sumatera Barat", "Kalimantan Timur"],
+                correctIndex: 0
+            },
+            {
+                question: "Lagu daerah “Ampar-Ampar Pisang” berasal dari ....",
+                options: ["Kalimantan Timur", "Kalimantan Selatan", "Sumatera Utara", "Lampung"],
+                correctIndex: 1
+            },
+            {
+                question: "Apa nama rumah tradisional masyarakat Papua?",
+                options: ["Rumah Lamin", "Rumah Joglo", "Rumah Honai", "Rumah Kebaya"],
+                correctIndex: 2
+            }
+        ];
+
+        let currentScreen = 'home';
+
+        function navigate(screenId) {
+            document.getElementById(`screen-${currentScreen}`).classList.remove('active');
+            document.getElementById(`screen-${currentScreen}`).classList.add('hidden', '!important');
+            
+            document.getElementById(`screen-${screenId}`).classList.remove('hidden', '!important');
+            document.getElementById(`screen-${screenId}`).classList.add('active');
+            
+            currentScreen = screenId;
+
+            const header = document.getElementById('main-header');
+            if (screenId === 'home') {
+                header.classList.add('hidden');
+            } else {
+                header.classList.remove('hidden');
+            }
+        }
+
+        function renderMapPins() {
+            const container = document.getElementById('map-pins-container');
+            container.innerHTML = '';
+
+            for (const [islandKey, island] of Object.entries(mapData)) {
+                island.provinces.forEach(prov => {
+                    if (prov.top && prov.left) {
+                        const pin = document.createElement('button');
+                        pin.className = 'absolute transform -translate-x-1/2 -translate-y-full group text-red-600 hover:text-red-700 transition-transform hover:scale-125 z-10 btn-click';
+                        pin.style.top = prov.top;
+                        pin.style.left = prov.left;
+                        
+                        pin.innerHTML = `
+                            <i class="fa-solid fa-location-dot text-3xl md:text-4xl drop-shadow-lg" style="filter: drop-shadow(0 4px 3px rgba(0,0,0,0.4));"></i>
+                            <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 bg-white border-2 border-red-300 px-3 py-1 rounded-xl text-xs md:text-sm font-bold shadow-xl opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity pointer-events-none text-gray-800 z-20 font-heading">
+                                ${prov.name}
+                            </div>
+                        `;
+                        
+                        pin.onclick = () => showProvinceDetail(islandKey, prov.id);
+                        container.appendChild(pin);
+                    }
+                });
+            }
+        }
+
+        function showProvinceDetail(islandKey, provId) {
+            const island = mapData[islandKey];
+            const prov = island.provinces.find(p => p.id === provId);
+
+            document.getElementById('detail-province-name').innerText = prov.name;
+            document.getElementById('detail-island-name').innerText = island.name;
+
+            const grid = document.getElementById('cultural-details-grid');
+            grid.innerHTML = '';
+
+            const traits = [
+                { key: 'suku', title: 'Suku Bangsa', bg: 'bg-blue-100', text: 'text-blue-600' },
+                { key: 'bahasa', title: 'Bahasa Daerah', bg: 'bg-indigo-100', text: 'text-indigo-600' },
+                { key: 'rumah_adat', title: 'Rumah Tradisional', bg: 'bg-orange-100', text: 'text-orange-600' },
+                { key: 'pakaian_adat', title: 'Pakaian Tradisional', bg: 'bg-pink-100', text: 'text-pink-600' },
+                { key: 'senjata', title: 'Senjata Tradisional', bg: 'bg-gray-200', text: 'text-gray-700' },
+                { key: 'tarian', title: 'Tarian Tradisional', bg: 'bg-purple-100', text: 'text-purple-600' },
+                { key: 'alat_musik', title: 'Alat Musik', bg: 'bg-teal-100', text: 'text-teal-600' },
+                { key: 'lagu', title: 'Lagu Daerah', bg: 'bg-yellow-100', text: 'text-yellow-600' },
+                { key: 'makanan', title: 'Makanan Khas', bg: 'bg-red-100', text: 'text-red-600' }
+            ];
+
+            traits.forEach(trait => {
+                const data = prov[trait.key];
+                if (data) {
+                    const el = document.createElement('div');
+                    el.className = `flex items-center p-4 bg-gray-50 rounded-2xl border-2 border-gray-100 hover:border-green-300 transition-colors`;
+                    el.innerHTML = `
+                        <div class="w-14 h-14 rounded-full flex items-center justify-center ${trait.bg} ${trait.text} mr-4 flex-shrink-0">
+                            <i class="fa-solid ${data.icon} text-2xl"></i>
+                        </div>
+                        <div>
+                            <div class="text-sm text-gray-500 font-bold uppercase tracking-wider">${trait.title}</div>
+                            <div class="text-lg font-bold text-gray-800">${data.name}</div>
+                        </div>
+                    `;
+                    grid.appendChild(el);
+                }
+            });
+
+            navigate('map-detail');
+        }
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let hasAnsweredCurrent = false;
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            updateQuizUI();
+            navigate('quiz-play');
+        }
+
+        function updateQuizUI() {
+            hasAnsweredCurrent = false;
+            const q = quizQuestions[currentQuestionIndex];
+            
+            document.getElementById('quiz-current-num').innerText = currentQuestionIndex + 1;
+            document.getElementById('quiz-total-num').innerText = quizQuestions.length;
+            document.getElementById('quiz-score').innerText = score;
+            document.getElementById('quiz-question').innerText = q.question;
+            
+            const progressPercent = ((currentQuestionIndex + 1) / quizQuestions.length) * 100;
+            document.getElementById('quiz-progress').style.width = `${progressPercent}%`;
+
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+            
+            q.options.forEach((optText, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-option w-full text-left p-4 rounded-xl font-bold text-gray-700 flex items-center justify-between text-lg';
+                btn.innerHTML = `<span>${optText}</span> <i class="fa-regular fa-circle text-gray-300 status-icon"></i>`;
+                btn.onclick = () => checkAnswer(idx, btn);
+                optionsContainer.appendChild(btn);
+            });
+
+            document.getElementById('quiz-feedback-container').classList.add('hidden');
+        }
+
+        function checkAnswer(selectedIndex, btnElement) {
+            if (hasAnsweredCurrent) return;
+            hasAnsweredCurrent = true;
+
+            const q = quizQuestions[currentQuestionIndex];
+            const isCorrect = (selectedIndex === q.correctIndex);
+            
+            const allBtns = document.querySelectorAll('.quiz-option');
+            allBtns.forEach((b, idx) => {
+                b.disabled = true;
+                b.classList.remove('hover:border-blue-500', 'cursor-pointer');
+                
+                const icon = b.querySelector('.status-icon');
+                icon.className = '';
+                
+                if (idx === q.correctIndex) {
+                    b.classList.add('correct');
+                    icon.classList.add('fa-solid', 'fa-circle-check', 'text-green-600');
+                } else if (idx === selectedIndex && !isCorrect) {
+                    b.classList.add('wrong');
+                    icon.classList.add('fa-solid', 'fa-circle-xmark', 'text-red-600');
+                } else {
+                    icon.classList.add('fa-regular', 'fa-circle', 'text-gray-400');
+                }
+            });
+
+            const feedbackContainer = document.getElementById('quiz-feedback-container');
+            const msgEl = document.getElementById('quiz-feedback-msg');
+            const btnNext = document.getElementById('btn-next-question');
+            
+            feedbackContainer.classList.remove('hidden');
+
+            if (isCorrect) {
+                score += 10;
+                document.getElementById('quiz-score').innerText = score;
+                msgEl.innerHTML = `<i class="fa-solid fa-face-smile-beam text-green-500 text-3xl"></i> <span class="text-green-600">Hebat! Jawabanmu Benar!</span>`;
+            } else {
+                msgEl.innerHTML = `<i class="fa-solid fa-face-frown-open text-red-500 text-3xl"></i> <span class="text-red-600">Sayang sekali, jawaban kurang tepat.</span>`;
+            }
+
+            if (currentQuestionIndex === quizQuestions.length - 1) {
+                btnNext.innerHTML = 'Lihat Hasil Akhir <i class="fa-solid fa-flag-checkered ml-2"></i>';
+                btnNext.classList.replace('bg-blue-600', 'bg-green-600');
+                btnNext.classList.replace('border-blue-800', 'border-green-800');
+            } else {
+                btnNext.innerHTML = 'Lanjut <i class="fa-solid fa-arrow-right ml-2"></i>';
+                btnNext.classList.replace('bg-green-600', 'bg-blue-600');
+                btnNext.classList.replace('border-green-800', 'border-blue-800');
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizQuestions.length) {
+                updateQuizUI();
+            } else {
+                showQuizResult();
+            }
+        }
+
+        function showQuizResult() {
+            document.getElementById('final-score').innerText = score;
+            
+            const iconContainer = document.getElementById('result-icon-container');
+            const titleEl = document.getElementById('result-title');
+            
+            iconContainer.className = 'w-40 h-40 rounded-full flex items-center justify-center mb-6 shadow-lg border-8';
+            
+            if (score >= 80) {
+                iconContainer.classList.add('bg-yellow-100', 'border-yellow-400', 'text-yellow-500');
+                iconContainer.innerHTML = '<i class="fa-solid fa-trophy text-7xl"></i>';
+                titleEl.innerText = 'Luar Biasa!';
+                titleEl.className = 'font-heading text-4xl font-bold mb-2 text-yellow-600';
+            } else if (score >= 50) {
+                iconContainer.classList.add('bg-blue-100', 'border-blue-400', 'text-blue-500');
+                iconContainer.innerHTML = '<i class="fa-solid fa-thumbs-up text-7xl"></i>';
+                titleEl.innerText = 'Kerja Bagus!';
+                titleEl.className = 'font-heading text-4xl font-bold mb-2 text-blue-600';
+            } else {
+                iconContainer.classList.add('bg-red-100', 'border-red-400', 'text-red-500');
+                iconContainer.innerHTML = '<i class="fa-solid fa-book-open text-7xl"></i>';
+                titleEl.innerText = 'Tetap Semangat!';
+                titleEl.className = 'font-heading text-4xl font-bold mb-2 text-red-600';
+            }
+
+            navigate('quiz-result');
+        }
+
+        function showCustomAlert(title, message) {
+            document.getElementById('alert-title').innerText = title;
+            document.getElementById('alert-message').innerText = message;
+            const modal = document.getElementById('custom-alert');
+            const box = document.getElementById('custom-alert-box');
+            
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                box.classList.remove('scale-95', 'opacity-0');
+                box.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeCustomAlert() {
+            const modal = document.getElementById('custom-alert');
+            const box = document.getElementById('custom-alert-box');
+            
+            box.classList.remove('scale-100', 'opacity-100');
+            box.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        window.onload = () => {
+            renderMapPins();
+        };
+    </script>
+</body>
+</html>
